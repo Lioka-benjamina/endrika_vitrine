@@ -1,11 +1,13 @@
 import { services } from "../../data/siteData";
 import { Container } from "../ui/Container";
+import { useLang } from "../../context/LangContext";
 
 export function Services() {
+  const { t } = useLang();
+
   return (
     <section id="services" className="relative overflow-hidden bg-endrika-bg py-24 dark:bg-[#0f0f0f] sm:py-28">
 
-      {/* Background blobs */}
       <div
         aria-hidden
         className="pointer-events-none absolute -left-32 top-1/2 h-[450px] w-[450px] -translate-y-1/2 rounded-full bg-endrika-red/8 blur-[120px] dark:bg-endrika-red/15"
@@ -22,19 +24,18 @@ export function Services() {
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-endrika-red/20 bg-white px-4 py-1.5 dark:bg-white/5 dark:border-white/10">
             <span className="h-1.5 w-1.5 rounded-full bg-endrika-red" />
             <span className="text-xs font-semibold uppercase tracking-[0.12em] text-endrika-muted dark:text-white/60">
-              Services
+              {t("Services")}
             </span>
           </div>
 
           <h2 className="text-[2.1rem] font-bold leading-[1.15] tracking-[-0.02em] text-endrika-dark dark:text-white sm:text-[2.4rem]">
-            Des solutions digitales{" "}
-            <span className="text-endrika-red">pensées</span>{" "}
-            pour être utiles.
+            {t("Des solutions digitales")}{" "}
+            <span className="text-endrika-red">{t("pensées")}</span>{" "}
+            {t("pour être utiles.")}
           </h2>
 
           <p className="mt-4 text-[1rem] leading-7 text-endrika-muted/75 dark:text-white/50">
-            Nous concevons des outils clairs, modernes et adaptés aux réalités
-            de chaque entreprise.
+            {t("Nous concevons des outils clairs, modernes et adaptés aux réalités de chaque entreprise.")}
           </p>
         </div>
 
@@ -51,23 +52,20 @@ export function Services() {
                 dark:border-white/10 dark:bg-white/5 dark:hover:border-endrika-red/30
               "
             >
-              {/* Subtle glow on hover */}
               <div className="pointer-events-none absolute inset-0 rounded-2xl bg-endrika-red/0 transition-all duration-300 group-hover:bg-endrika-red/[0.02]" />
 
-              {/* Number badge */}
               <span className="mb-6 flex h-10 w-10 items-center justify-center rounded-xl bg-endrika-red/8 text-[0.75rem] font-bold tracking-wide text-endrika-red dark:bg-endrika-red/15">
                 {String(index + 1).padStart(2, "0")}
               </span>
 
               <h3 className="text-[1.05rem] font-semibold leading-snug text-endrika-dark dark:text-white">
-                {service.title}
+                {t(service.title)}
               </h3>
 
               <p className="mt-3 text-[0.85rem] leading-6 text-endrika-muted/70 dark:text-white/45">
-                {service.description}
+                {t(service.description)}
               </p>
 
-              {/* Bottom accent line on hover */}
               <div className="absolute bottom-0 left-0 h-px w-0 bg-endrika-red/40 transition-all duration-500 group-hover:w-full" />
             </article>
           ))}
@@ -85,7 +83,7 @@ export function Services() {
               dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:border-endrika-red/30
             "
           >
-            Discuter de votre projet
+            {t("Discuter de votre projet")}
             <span className="text-endrika-red">→</span>
           </a>
         </div>

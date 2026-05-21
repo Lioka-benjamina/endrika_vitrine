@@ -1,10 +1,12 @@
 import { Container } from "../ui/Container";
+import { useLang } from "../../context/LangContext";
 
 export function Contact() {
+  const { t } = useLang();
+
   return (
     <section id="contact" className="relative overflow-hidden bg-endrika-bg py-24 dark:bg-[#0f0f0f] sm:py-28">
 
-      {/* Background blobs */}
       <div
         aria-hidden
         className="pointer-events-none absolute -left-32 top-0 h-[450px] w-[450px] rounded-full bg-endrika-red/8 blur-[120px] dark:bg-endrika-red/15"
@@ -15,36 +17,32 @@ export function Contact() {
       />
 
       <Container className="relative z-10">
-
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
 
           {/* ── Left ── */}
           <div>
-            {/* Badge pill */}
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-endrika-red/20 bg-white px-4 py-1.5 dark:bg-white/5 dark:border-white/10">
               <span className="h-1.5 w-1.5 rounded-full bg-endrika-red" />
               <span className="text-xs font-semibold uppercase tracking-[0.12em] text-endrika-muted dark:text-white/60">
-                Contact
+                {t("Contact")}
               </span>
             </div>
 
             <h2 className="text-[2.1rem] font-bold leading-[1.15] tracking-[-0.02em] text-endrika-dark dark:text-white sm:text-[2.4rem]">
-              Parlons de votre{" "}
-              <span className="text-endrika-red">projet.</span>
+              {t("Parlons de votre")}{" "}
+              <span className="text-endrika-red">{t("projet.")}</span>
             </h2>
 
             <p className="mt-4 max-w-sm text-[0.95rem] leading-7 text-endrika-muted/75 dark:text-white/50">
-              Vous avez une idée, un besoin ou un projet à structurer ? Écrivez-nous
-              simplement, nous prendrons le temps d'en discuter avec clarté.
+              {t("Vous avez une idée, un besoin ou un projet à structurer ? Écrivez-nous simplement, nous prendrons le temps d'en discuter avec clarté.")}
             </p>
 
-            {/* Contact infos */}
             <div className="mt-8 space-y-3">
               {[
-                { label: "Email", value: "contact@endrika.mg" },
-                { label: "Téléphone", value: "+261 34 00 000 00" },
+                { label: t("Email"), value: "contact@endrika.mg" },
+                { label: t("Téléphone"), value: "+261 34 00 000 00" },
                 { label: "WhatsApp", value: "+261 34 00 000 00" },
-                { label: "Localisation", value: "Madagascar" },
+                { label: t("Localisation"), value: "Madagascar" },
               ].map(({ label, value }) => (
                 <div
                   key={label}
@@ -65,9 +63,9 @@ export function Contact() {
           <form className="rounded-2xl border border-black/[0.06] bg-white p-6 dark:border-white/10 dark:bg-white/5 sm:p-8">
             <div className="grid gap-4 sm:grid-cols-2">
               {[
-                { label: "Nom", type: "text", placeholder: "Votre nom" },
-                { label: "Email", type: "email", placeholder: "votre@email.com" },
-                { label: "Téléphone", type: "tel", placeholder: "+261 ..." },
+                { label: t("Nom"), type: "text", placeholder: t("Votre nom") },
+                { label: t("Email"), type: "email", placeholder: "votre@email.com" },
+                { label: t("Téléphone"), type: "tel", placeholder: "+261 ..." },
               ].map(({ label, type, placeholder }) => (
                 <div key={label}>
                   <label className="mb-1.5 block text-[0.8rem] font-semibold text-endrika-dark dark:text-white">
@@ -91,7 +89,7 @@ export function Contact() {
 
               <div>
                 <label className="mb-1.5 block text-[0.8rem] font-semibold text-endrika-dark dark:text-white">
-                  Type de projet
+                  {t("Type de projet")}
                 </label>
                 <select className="
                   w-full rounded-xl border border-black/[0.08] bg-endrika-bg px-4 py-2.5
@@ -100,22 +98,22 @@ export function Contact() {
                   focus:border-endrika-red/50 focus:ring-2 focus:ring-endrika-red/10
                   dark:border-white/10 dark:bg-white/5 dark:text-white
                 ">
-                  <option>Site web</option>
-                  <option>Application mobile</option>
-                  <option>Digitalisation</option>
-                  <option>Design UI/UX</option>
-                  <option>Accompagnement</option>
+                  <option>{t("Site web")}</option>
+                  <option>{t("Application mobile")}</option>
+                  <option>{t("Digitalisation")}</option>
+                  <option>{t("Design UI/UX")}</option>
+                  <option>{t("Accompagnement")}</option>
                 </select>
               </div>
             </div>
 
             <div className="mt-4">
               <label className="mb-1.5 block text-[0.8rem] font-semibold text-endrika-dark dark:text-white">
-                Message
+                {t("Message")}
               </label>
               <textarea
                 rows={5}
-                placeholder="Parlez-nous brièvement de votre projet..."
+                placeholder={t("Parlez-nous brièvement de votre projet...")}
                 className="
                   w-full resize-none rounded-xl border border-black/[0.08] bg-endrika-bg px-4 py-2.5
                   text-[0.875rem] text-endrika-dark outline-none
@@ -138,7 +136,7 @@ export function Contact() {
                   active:scale-[0.98]
                 "
               >
-                Envoyer le message
+                {t("Envoyer le message")}
                 <span className="ml-1.5 inline-block transition-transform duration-200 group-hover:translate-x-0.5">→</span>
               </button>
             </div>

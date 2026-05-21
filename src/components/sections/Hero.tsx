@@ -1,6 +1,9 @@
 import { Container } from "../ui/Container";
+import { useLang } from "../../context/LangContext";
 
 export function Hero() {
+  const { t } = useLang();
+
   return (
     <section
       id="accueil"
@@ -19,15 +22,12 @@ export function Hero() {
       <Container className="relative z-10 grid min-h-screen items-center gap-16 py-[120px] lg:grid-cols-[1fr_1fr]">
         <div>
           <h1 className="max-w-2xl text-[3rem] font-bold leading-[1.08] tracking-[-0.03em] text-endrika-dark dark:text-white sm:text-4xl lg:text-[4.2rem]">
-            Donnons une vraie forme{" "}
-            digitale à{" "}
-            <span className="text-endrika-red">vos </span>
-            <span className="text-endrika-red">idées.</span>
+            {t("Donnons une vraie forme digitale à")}{" "}
+            <span className="text-endrika-red">{t("vos idées.")}</span>
           </h1>
 
           <p className="mt-8 max-w-xl text-[1.15rem] leading-8 text-endrika-muted/80 dark:text-white/55">
-            Endrika accompagne les entreprises ambitieuses dans la création
-            d'applications, de sites web et de solutions sur mesure.
+            {t("Endrika accompagne les entreprises ambitieuses dans la création d'applications, de sites web et de solutions sur mesure.")}
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -35,15 +35,14 @@ export function Hero() {
               href="#contact"
               className="group relative overflow-hidden rounded-full bg-endrika-red px-8 py-4 text-[1rem] font-semibold text-white transition-all duration-300 hover:bg-[#7a1009] hover:shadow-[0_6px_28px_rgba(145,20,12,0.38)] active:scale-[0.97]"
             >
-              Commencer un projet
+              {t("Commencer un projet")}
               <span className="ml-1.5 inline-block transition-transform duration-200 group-hover:translate-x-0.5">→</span>
             </a>
             <a
-            
               href="#realisations"
               className="rounded-full border border-black/10 bg-white px-8 py-4 text-[1rem] font-semibold text-endrika-dark transition-all duration-300 hover:border-black/20 hover:shadow-sm active:scale-[0.97] dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
             >
-              Voir nos réalisations
+              {t("Voir nos réalisations")}
             </a>
           </div>
         </div>
@@ -53,12 +52,11 @@ export function Hero() {
           <div className="relative overflow-hidden rounded-[2.5rem]">
             <img
               src="/images/hero-team.png"
-              alt="Équipe Endrika en discussion"
+              alt={t("Équipe Endrika en discussion")}
               className="relative z-10 w-full object-contain"
             />
           </div>
         </div>
-
       </Container>
     </section>
   );

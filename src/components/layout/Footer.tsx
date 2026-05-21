@@ -1,5 +1,6 @@
 import { navLinks } from "../../data/siteData";
 import { Container } from "../ui/Container";
+import { useLang } from "../../context/LangContext";
 
 const socials = [
   {
@@ -35,10 +36,11 @@ const socials = [
 ];
 
 export function Footer() {
+  const { t } = useLang();
+
   return (
     <footer className="relative overflow-hidden bg-endrika-dark dark:bg-[#080808]">
 
-      {/* Subtle glow */}
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-0 h-[200px] w-[600px] -translate-x-1/2 rounded-full bg-endrika-red/10 blur-[100px]"
@@ -46,7 +48,6 @@ export function Footer() {
 
       <Container className="relative z-10">
 
-        {/* ── Main row ── */}
         <div className="flex flex-col gap-10 border-b border-white/[0.08] py-12 md:flex-row md:items-start md:justify-between">
 
           {/* Brand */}
@@ -60,10 +61,8 @@ export function Footer() {
               </span>
             </div>
             <p className="mt-4 text-[0.84rem] leading-6 text-white/45">
-              Des solutions digitales utiles, élégantes et durables pour les
-              entreprises locales et ambitieuses.
+              {t("Des solutions digitales utiles, élégantes et durables pour les entreprises locales et ambitieuses.")}
             </p>
-            {/* Socials */}
             <div className="mt-5 flex gap-2">
               {socials.map(({ label, href, icon }) => (
                 <a
@@ -81,7 +80,7 @@ export function Footer() {
           {/* Nav */}
           <div>
             <p className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-white/30">
-              Navigation
+              {t("Navigation")}
             </p>
             <nav className="flex flex-col gap-2.5">
               {navLinks.map((link) => (
@@ -90,7 +89,7 @@ export function Footer() {
                   href={link.href}
                   className="text-[0.875rem] text-white/50 transition-colors duration-200 hover:text-white"
                 >
-                  {link.label}
+                  {t(link.label)}
                 </a>
               ))}
             </nav>
@@ -99,12 +98,12 @@ export function Footer() {
           {/* Services */}
           <div>
             <p className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-white/30">
-              Services
+              {t("Services")}
             </p>
             <div className="flex flex-col gap-2.5">
               {["Sites web", "Applications mobiles", "UI/UX Design", "E-commerce", "Digitalisation", "Maintenance"].map((s) => (
                 <span key={s} className="text-[0.875rem] text-white/50">
-                  {s}
+                  {t(s)}
                 </span>
               ))}
             </div>
@@ -113,7 +112,7 @@ export function Footer() {
           {/* Contact */}
           <div>
             <p className="mb-4 text-[0.7rem] font-semibold uppercase tracking-[0.15em] text-white/30">
-              Contact
+              {t("Contact")}
             </p>
             <div className="flex flex-col gap-2.5 text-[0.875rem] text-white/50">
               <span>contact@endrika.mg</span>
@@ -124,7 +123,7 @@ export function Footer() {
               href="#contact"
               className="mt-5 inline-flex items-center gap-1.5 rounded-full bg-endrika-red px-4 py-2 text-[0.8rem] font-semibold text-white transition-all duration-300 hover:bg-[#7a1009] hover:shadow-[0_4px_16px_rgba(145,20,12,0.35)]"
             >
-              Démarrer un projet
+              {t("Démarrer un projet")}
               <span>→</span>
             </a>
           </div>
@@ -133,8 +132,8 @@ export function Footer() {
 
         {/* ── Bottom bar ── */}
         <div className="flex flex-col items-center justify-between gap-3 py-6 text-[0.78rem] text-white/25 sm:flex-row">
-          <span>© {new Date().getFullYear()} Endrika. Tous droits réservés.</span>
-          <span>Fait avec ❤️ à Madagascar</span>
+          <span>© {new Date().getFullYear()} Endrika. {t("Tous droits réservés.")}</span>
+          <span>{t("Fait avec")} ❤️ {t("à Madagascar")}</span>
         </div>
 
       </Container>

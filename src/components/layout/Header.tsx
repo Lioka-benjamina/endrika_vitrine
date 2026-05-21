@@ -1,6 +1,7 @@
 import { navLinks } from "../../data/siteData";
 import { Container } from "../ui/Container";
 import { useState, useEffect } from "react";
+import { useLang } from "../../context/LangContext";
 
 interface HeaderProps {
   dark: boolean;
@@ -11,7 +12,7 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState("accueil");
     const [mobileOpen, setMobileOpen] = useState(false);
-    const [lang, setLang] = useState<"FR" | "EN">("FR");
+    const { lang, toggleLang, t, loading } = useLang();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -71,7 +72,7 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
                                                 }
                                             `}
                                         >
-                                            {link.label}
+                                            {t(link.label)}
                                         </a>
                                     </li>
                                 );
@@ -89,7 +90,6 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
                             className="flex h-8 w-8 items-center justify-center rounded-full text-endrika-muted/60 transition-colors hover:bg-black/5 hover:text-endrika-dark dark:text-white/50 dark:hover:bg-white/10 dark:hover:text-white"
                         >
                             {dark ? (
-                                /* Sun */
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <circle cx="12" cy="12" r="5"/>
                                     <line x1="12" y1="1" x2="12" y2="3"/>
@@ -102,7 +102,6 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
                                     <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
                                 </svg>
                             ) : (
-                                /* Moon */
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
                                 </svg>
@@ -111,10 +110,11 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
 
                         {/* Language switch */}
                         <button
-                            onClick={() => setLang(lang === "FR" ? "EN" : "FR")}
-                            className="text-[0.8rem] font-semibold tracking-wide text-endrika-muted/70 transition-colors hover:text-endrika-dark dark:text-white/50 dark:hover:text-white"
+                            onClick={toggleLang}
+                            disabled={loading}
+                            className="text-[0.8rem] font-semibold tracking-wide text-endrika-muted/70 transition-colors hover:text-endrika-dark dark:text-white/50 dark:hover:text-white disabled:opacity-40"
                         >
-                            {lang === "FR" ? "EN" : "FR"}
+                            {loading ? "..." : lang === "FR" ? "EN" : "FR"}
                         </button>
 
                         {/* CTA */}
@@ -122,13 +122,12 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
                             href="#contact"
                             className="relative overflow-hidden rounded-full bg-endrika-red px-5 py-2 text-[0.85rem] font-semibold text-white transition-all duration-300 hover:bg-[#7a1009] hover:shadow-[0_4px_20px_rgba(145,20,12,0.35)] active:scale-[0.97]"
                         >
-                            Démarrer un projet
+                            {t("Démarrer un projet")}
                         </a>
                     </div>
 
                     {/* Mobile */}
                     <div className="flex items-center gap-2 lg:hidden">
-                        {/* Dark toggle mobile */}
                         <button
                             onClick={onToggleDark}
                             aria-label="Toggle dark mode"
@@ -150,7 +149,7 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
                         </button>
 
                         <a href="#contact" className="rounded-full bg-endrika-red px-4 py-1.5 text-sm font-semibold text-white">
-                            Contact
+                            {t("Contact")}
                         </a>
 
                         <button
@@ -178,17 +177,18 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
                                         onClick={() => setMobileOpen(false)}
                                         className="block rounded-lg px-3 py-2.5 text-sm font-medium text-endrika-muted transition-colors hover:bg-endrika-red/5 hover:text-endrika-red dark:text-white/70"
                                     >
-                                        {link.label}
+                                        {t(link.label)}
                                     </a>
                                 </li>
                             ))}
                         </ul>
                         <div className="mt-4 flex items-center gap-3 border-t border-black/5 pt-4 dark:border-white/10">
                             <button
-                                onClick={() => setLang(lang === "FR" ? "EN" : "FR")}
-                                className="text-sm font-semibold text-endrika-muted/60 dark:text-white/50"
+                                onClick={toggleLang}
+                                disabled={loading}
+                                className="text-sm font-semibold text-endrika-muted/60 dark:text-white/50 disabled:opacity-40"
                             >
-                                {lang === "FR" ? "EN" : "FR"}
+                                {loading ? "..." : lang === "FR" ? "EN" : "FR"}
                             </button>
                         </div>
                     </nav>
