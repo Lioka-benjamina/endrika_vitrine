@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Footer } from "./components/layout/Footer";
 import { Header } from "./components/layout/Header";
 import { About } from "./components/sections/About";
@@ -10,9 +11,25 @@ import { Team } from "./components/sections/Team";
 import { Values } from "./components/sections/Values";
 
 function App() {
+  const [dark, setDark] = useState(() => {
+    
+    const saved = localStorage.getItem("endrika-theme");
+    if (saved) return saved === "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
+
+  useEffect(() => {
+    if (dark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    localStorage.setItem("endrika-theme", dark ? "dark" : "light");
+  }, [dark]);
+
   return (
-    <div className="min-h-screen bg-endrika-bg text-endrika-dark antialiased">
-      <Header />
+    <div className="min-h-screen bg-endrika-bg text-endrika-dark dark:bg-[#0f0f0f] dark:text-white antialiased">
+      <Header dark={dark} onToggleDark={() => setDark((d) => !d)} />
 
       <main>
         <Hero />
