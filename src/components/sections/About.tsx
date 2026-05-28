@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Container } from "../ui/Container";
 import { useLang } from "../../context/LangContext";
 
@@ -56,6 +57,18 @@ export function About() {
               {t("Pour nous, un bon produit digital doit être simple à comprendre, agréable à utiliser et utile dans le quotidien de ceux qui s'en servent.")}
             </p>
           </div>
+
+          {/* ── Bouton vers la page dédiée ── */}
+          <Link
+            to="/a-propos"
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-endrika-red px-6 py-2.5 text-[0.85rem] font-semibold text-white transition-all duration-300 hover:bg-[#7a1009] hover:shadow-[0_4px_20px_rgba(145,20,12,0.35)] active:scale-[0.97]"
+          >
+            {t("En savoir plus sur nous")}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </Link>
         </div>
 
       </Container>

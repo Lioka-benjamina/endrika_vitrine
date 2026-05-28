@@ -1,11 +1,13 @@
+
 import { navLinks } from "../../data/siteData";
 import { Container } from "../ui/Container";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useLang } from "../../context/LangContext";
 
 interface HeaderProps {
-  dark: boolean;
-  onToggleDark: () => void;
+    dark: boolean;
+    onToggleDark: () => void;
 }
 
 export function Header({ dark, onToggleDark }: HeaderProps) {
@@ -32,6 +34,13 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // Liens qui sont des vraies routes (pas des anchors)
+    const routeLinks: Record<string, string> = {
+        "#accueil": "/",
+        "#a-propos": "/a-propos",
+        "#services": "/services",
+    };
+
     return (
         <header
             className={`
@@ -46,7 +55,7 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
                 <div className="flex h-[68px] items-center justify-between">
 
                     {/* Logo */}
-                    <a href="#accueil" className="group relative flex items-center gap-2.5">
+                    <a href="/" className="group relative flex items-center gap-2.5">
                         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-endrika-red transition-transform duration-300 group-hover:scale-105">
                             <span className="select-none text-sm font-bold text-white">E</span>
                         </div>
@@ -60,20 +69,25 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
                         <ul className="flex items-center gap-0.5">
                             {navLinks.map((link) => {
                                 const isActive = activeSection === link.href.substring(1);
+                                const isRoute = !!routeLinks[link.href];
+                                const linkClass = `
+                                    relative px-4 py-2 text-[0.875rem] font-medium transition-colors duration-200
+                                    ${isActive
+                                        ? "text-endrika-dark dark:text-white"
+                                        : "text-endrika-muted/70 hover:text-endrika-dark dark:text-white/60 dark:hover:text-white"
+                                    }
+                                `;
                                 return (
                                     <li key={link.href}>
-                                        <a
-                                            href={link.href}
-                                            className={`
-                                                relative px-4 py-2 text-[0.875rem] font-medium transition-colors duration-200
-                                                ${isActive
-                                                    ? "text-endrika-dark dark:text-white"
-                                                    : "text-endrika-muted/70 hover:text-endrika-dark dark:text-white/60 dark:hover:text-white"
-                                                }
-                                            `}
-                                        >
-                                            {t(link.label)}
-                                        </a>
+                                        {isRoute ? (
+                                            <Link to={routeLinks[link.href]} className={linkClass}>
+                                                {t(link.label)}
+                                            </Link>
+                                        ) : (
+                                            <a href={link.href} className={linkClass}>
+                                                {t(link.label)}
+                                            </a>
+                                        )}
                                     </li>
                                 );
                             })}
@@ -82,8 +96,6 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
 
                     {/* Actions Desktop */}
                     <div className="hidden items-center gap-3 lg:flex">
-
-                        {/* Dark mode toggle */}
                         <button
                             onClick={onToggleDark}
                             aria-label="Toggle dark mode"
@@ -91,24 +103,23 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
                         >
                             {dark ? (
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <circle cx="12" cy="12" r="5"/>
-                                    <line x1="12" y1="1" x2="12" y2="3"/>
-                                    <line x1="12" y1="21" x2="12" y2="23"/>
-                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                                    <line x1="1" y1="12" x2="3" y2="12"/>
-                                    <line x1="21" y1="12" x2="23" y2="12"/>
-                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                                    <circle cx="12" cy="12" r="5" />
+                                    <line x1="12" y1="1" x2="12" y2="3" />
+                                    <line x1="12" y1="21" x2="12" y2="23" />
+                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                                    <line x1="1" y1="12" x2="3" y2="12" />
+                                    <line x1="21" y1="12" x2="23" y2="12" />
+                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
                                 </svg>
                             ) : (
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                                 </svg>
                             )}
                         </button>
 
-                        {/* Language switch */}
                         <button
                             onClick={toggleLang}
                             disabled={loading}
@@ -117,7 +128,6 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
                             {loading ? "..." : lang === "FR" ? "EN" : "FR"}
                         </button>
 
-                        {/* CTA */}
                         <a
                             href="#contact"
                             className="relative overflow-hidden rounded-full bg-endrika-red px-5 py-2 text-[0.85rem] font-semibold text-white transition-all duration-300 hover:bg-[#7a1009] hover:shadow-[0_4px_20px_rgba(145,20,12,0.35)] active:scale-[0.97]"
@@ -135,15 +145,15 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
                         >
                             {dark ? (
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <circle cx="12" cy="12" r="5"/>
-                                    <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                                    <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                                    <circle cx="12" cy="12" r="5" />
+                                    <line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" />
+                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                                    <line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" />
+                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
                                 </svg>
                             ) : (
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                                 </svg>
                             )}
                         </button>
@@ -170,17 +180,31 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
                 <Container>
                     <nav className="py-4">
                         <ul className="flex flex-col gap-1">
-                            {navLinks.map((link) => (
-                                <li key={link.href}>
-                                    <a
-                                        href={link.href}
-                                        onClick={() => setMobileOpen(false)}
-                                        className="block rounded-lg px-3 py-2.5 text-sm font-medium text-endrika-muted transition-colors hover:bg-endrika-red/5 hover:text-endrika-red dark:text-white/70"
-                                    >
-                                        {t(link.label)}
-                                    </a>
-                                </li>
-                            ))}
+                            {navLinks.map((link) => {
+                                const isRoute = !!routeLinks[link.href];
+                                const linkClass = "block rounded-lg px-3 py-2.5 text-sm font-medium text-endrika-muted transition-colors hover:bg-endrika-red/5 hover:text-endrika-red dark:text-white/70";
+                                return (
+                                    <li key={link.href}>
+                                        {isRoute ? (
+                                            <Link
+                                                to={routeLinks[link.href]}
+                                                onClick={() => setMobileOpen(false)}
+                                                className={linkClass}
+                                            >
+                                                {t(link.label)}
+                                            </Link>
+                                        ) : (
+                                            <a
+                                                href={link.href}
+                                                onClick={() => setMobileOpen(false)}
+                                                className={linkClass}
+                                            >
+                                                {t(link.label)}
+                                            </a>
+                                        )}
+                                    </li>
+                                );
+                            })}
                         </ul>
                         <div className="mt-4 flex items-center gap-3 border-t border-black/5 pt-4 dark:border-white/10">
                             <button

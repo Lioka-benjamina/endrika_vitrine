@@ -133,7 +133,7 @@ export function Footer() {
         {/* ── Bottom bar ── */}
         <div className="flex flex-col items-center justify-between gap-3 py-6 text-[0.78rem] text-white/25 sm:flex-row">
           <span>© {new Date().getFullYear()} Endrika. {t("Tous droits réservés.")}</span>
-          <span>{t("Fait avec")} ❤️ {t("à Madagascar")}</span>
+          {/* <span>{t("Fait avec")} ❤️ {t("à Madagascar")}</span> */}
         </div>
 
       </Container>

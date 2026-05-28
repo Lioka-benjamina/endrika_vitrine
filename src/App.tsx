@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LangProvider } from "./context/LangContext";
 import { Footer } from "./components/layout/Footer";
 import { Header } from "./components/layout/Header";
@@ -10,6 +11,8 @@ import { Projects } from "./components/sections/Projects";
 import { Services } from "./components/sections/Services";
 import { Team } from "./components/sections/Team";
 import { Values } from "./components/sections/Values";
+import { AboutPage } from "./pages/AboutPage";
+import { ServicesPage } from "./pages/ServicesPage";
 
 function App() {
   const [dark, setDark] = useState(() => {
@@ -28,22 +31,35 @@ function App() {
   }, [dark]);
 
   return (
-    <LangProvider>
-      <div className="min-h-screen bg-endrika-bg text-endrika-dark dark:bg-[#0f0f0f] dark:text-white antialiased">
-        <Header dark={dark} onToggleDark={() => setDark((d) => !d)} />
-        <main>
-          <Hero />
-          <About />
-          <Services />
-          <Team />
-          <Method />
-          <Projects />
-          <Values />
-          <Contact />
-        </main>
-        <Footer />
-      </div>
-    </LangProvider>
+    <BrowserRouter>
+      <LangProvider>
+        <div className="min-h-screen bg-endrika-bg text-endrika-dark dark:bg-[#0f0f0f] dark:text-white antialiased">
+          <Header dark={dark} onToggleDark={() => setDark((d) => !d)} />
+          <main>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <>
+                    <Hero />
+                    <About />
+                    <Services />
+                    <Team />
+                    <Method />
+                    <Projects />
+                    <Values />
+                    <Contact />
+                  </>
+                }
+              />
+              <Route path="/a-propos" element={<AboutPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </LangProvider>
+    </BrowserRouter>
   );
 }
 
