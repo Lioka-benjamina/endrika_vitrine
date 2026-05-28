@@ -17,10 +17,15 @@ import { ServicesPage } from "./pages/ServicesPage";
 function App() {
   const [dark, setDark] = useState(() => {
     const saved = localStorage.getItem("endrika-theme");
-    if (saved) return saved === "dark";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
-  });
 
+    // si déjà sauvegardé
+    if (saved) {
+      return saved === "dark";
+    }
+
+    // défaut = light
+    return false;
+  });
   useEffect(() => {
     if (dark) {
       document.documentElement.classList.add("dark");

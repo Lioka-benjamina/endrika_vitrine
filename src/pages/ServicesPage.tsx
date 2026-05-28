@@ -282,12 +282,7 @@ function FaqSection({ t }: { t: (s: string) => string }) {
 
           {/* Left */}
           <div className="lg:sticky lg:top-28">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-endrika-red/20 bg-white px-4 py-1.5 dark:bg-white/5 dark:border-white/10">
-              <span className="h-1.5 w-1.5 rounded-full bg-endrika-red" />
-              <span className="text-xs font-semibold uppercase tracking-[0.12em] text-endrika-muted dark:text-white/60">
-                {t("Questions fréquentes")}
-              </span>
-            </div>
+            
             <h2 className="text-[1.9rem] font-bold leading-[1.15] tracking-[-0.02em] text-endrika-dark dark:text-white">
               {t("Ce qu'on nous")} <span className="text-endrika-red">{t("demande souvent")}</span>
             </h2>
