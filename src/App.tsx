@@ -13,6 +13,7 @@ import { Team } from "./components/sections/Team";
 import { Values } from "./components/sections/Values";
 import { AboutPage } from "./pages/AboutPage";
 import { ServicesPage } from "./pages/ServicesPage";
+import { ServiceDetailPage } from "./pages/ServiceDetailPage";
 
 function App() {
   const [dark, setDark] = useState(() => {
@@ -59,6 +60,11 @@ function App() {
               />
               <Route path="/a-propos" element={<AboutPage />} />
               <Route path="/services" element={<ServicesPage />} />
+              <Route path="/services/developpement-web" element={<ServiceDetailPage slug="developpement-web" />} />
+              <Route path="/services/applications-mobiles" element={<ServiceDetailPage slug="applications-mobiles" />} />
+              <Route path="/services/digitalisation" element={<ServiceDetailPage slug="digitalisation" />} />
+              <Route path="/services/design-ui-ux" element={<ServiceDetailPage slug="design-ui-ux" />} />
+              <Route path="/services/maintenance" element={<ServiceDetailPage slug="maintenance" />} />
             </Routes>
           </main>
           <Footer />

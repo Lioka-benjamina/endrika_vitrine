@@ -10,28 +10,33 @@ export const navLinks = [
 export const services = [
   {
     title: "Développement web",
-    description:
-      "Sites vitrines, plateformes web, interfaces modernes, rapides et responsives.",
+    slug: "developpement-web",
+    icon: "ti-code",
+    description: "Sites vitrines, plateformes web, interfaces modernes, rapides et responsives.",
   },
   {
     title: "Applications mobiles",
-    description:
-      "Applications Android/iOS, prototypes, MVP et solutions mobiles adaptées aux besoins réels.",
+    slug: "applications-mobiles",
+    icon: "ti-device-mobile",
+    description: "Applications Android/iOS, prototypes, MVP et solutions mobiles adaptées aux besoins réels.",
   },
   {
     title: "Digitalisation",
-    description:
-      "Transformation de processus manuels en outils numériques simples, utiles et efficaces.",
+    slug: "digitalisation",
+    icon: "ti-refresh",
+    description: "Transformation de processus manuels en outils numériques simples, utiles et efficaces.",
   },
   {
     title: "Design UI/UX",
-    description:
-      "Interfaces propres, humaines, intuitives et cohérentes avec votre identité de marque.",
+    slug: "design-ui-ux",
+    icon: "ti-palette",
+    description: "Interfaces propres, humaines, intuitives et cohérentes avec votre identité de marque.",
   },
   {
     title: "Maintenance et accompagnement",
-    description:
-      "Suivi, amélioration, optimisation et évolution continue de vos solutions digitales.",
+    slug: "maintenance",
+    icon: "ti-tool",
+    description: "Suivi, amélioration, optimisation et évolution continue de vos solutions digitales.",
   },
 ];
 

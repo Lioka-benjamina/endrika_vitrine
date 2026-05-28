@@ -1,5 +1,4 @@
-
-import { navLinks } from "../../data/siteData";
+import { navLinks, services } from "../../data/siteData";
 import { Container } from "../ui/Container";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -14,6 +13,7 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState("accueil");
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [servicesOpen, setServicesOpen] = useState(false);
     const { lang, toggleLang, t, loading } = useLang();
 
     useEffect(() => {
@@ -34,7 +34,6 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // Liens qui sont des vraies routes (pas des anchors)
     const routeLinks: Record<string, string> = {
         "#accueil": "/",
         "#a-propos": "/a-propos",
@@ -69,6 +68,95 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
                         <ul className="flex items-center gap-0.5">
                             {navLinks.map((link) => {
                                 const isActive = activeSection === link.href.substring(1);
+                                const isServicesLink = link.href === "#services";
+
+                                if (isServicesLink) {
+                                    return (
+                                        <li
+                                            key={link.href}
+                                            className="relative"
+                                            onMouseEnter={() => setServicesOpen(true)}
+                                            onMouseLeave={() => setServicesOpen(false)}
+                                        >
+                                            <button
+                                                className={`
+                                                    flex items-center gap-1 px-4 py-2 text-[0.875rem] font-medium transition-colors duration-200
+                                                    ${isActive
+                                                        ? "text-endrika-dark dark:text-white"
+                                                        : "text-endrika-muted/70 hover:text-endrika-dark dark:text-white/60 dark:hover:text-white"
+                                                    }
+                                                `}
+                                            >
+                                                {t(link.label)}
+                                                <svg
+                                                    width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" strokeWidth="2.5"
+                                                    strokeLinecap="round" strokeLinejoin="round"
+                                                    className={`transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}
+                                                >
+                                                    <polyline points="6 9 12 15 18 9" />
+                                                </svg>
+                                            </button>
+
+                                            {/* Dropdown */}
+                                            <div
+                                                className={`
+                                                    absolute left-1/2 top-full -translate-x-1/2 pt-3
+                                                    transition-all duration-200
+                                                    ${servicesOpen
+                                                        ? "pointer-events-auto translate-y-0 opacity-100"
+                                                        : "pointer-events-none -translate-y-1 opacity-0"
+                                                    }
+                                                `}
+                                            >
+                                                <div className="w-[540px] rounded-2xl border border-black/[0.06] bg-white p-2 shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:border-white/10 dark:bg-[#1a1a1a]">
+                                                    <div className="grid grid-cols-2 gap-1">
+                                                        {services.map((service) => (
+                                                            <Link
+                                                                key={service.slug}
+                                                                to={`/services/${service.slug}`}
+                                                                onClick={() => setServicesOpen(false)}
+                                                                className="flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-endrika-red/5 dark:hover:bg-white/5"
+                                                            >
+                                                                <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-endrika-red/8 dark:bg-endrika-red/15">
+                                                                    <i
+                                                                        className={`ti ${service.icon} text-endrika-red`}
+                                                                        style={{ fontSize: 16 }}
+                                                                        aria-hidden="true"
+                                                                    />
+                                                                </div>
+                                                                <div>
+                                                                    <p className="text-[0.82rem] font-semibold text-endrika-dark dark:text-white">
+                                                                        {t(service.title)}
+                                                                    </p>
+                                                                    <p className="mt-0.5 text-[0.75rem] leading-5 text-endrika-muted/60 dark:text-white/40">
+                                                                        {t(service.description)}
+                                                                    </p>
+                                                                </div>
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                    <div className="mt-1 flex items-center justify-between border-t border-black/[0.05] px-3 pt-3 pb-1 dark:border-white/10">
+                                                        <Link
+                                                            to="/services"
+                                                            onClick={() => setServicesOpen(false)}
+                                                            className="text-[0.78rem] font-medium text-endrika-muted/60 transition-colors hover:text-endrika-dark dark:text-white/40 dark:hover:text-white"
+                                                        >
+                                                            {t("Voir tous les services")} →
+                                                        </Link>
+                                                        <a
+                                                            href="#contact"
+                                                            className="text-[0.78rem] font-semibold text-endrika-red transition-opacity hover:opacity-70"
+                                                        >
+                                                            {t("Demander un devis")} →
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    );
+                                }
+
                                 const isRoute = !!routeLinks[link.href];
                                 const linkClass = `
                                     relative px-4 py-2 text-[0.875rem] font-medium transition-colors duration-200
@@ -176,13 +264,49 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
             </Container>
 
             {/* Mobile menu */}
-            <div className={`overflow-hidden border-t border-black/5 bg-white/97 backdrop-blur-md transition-all duration-300 dark:bg-[#0f0f0f]/97 lg:hidden ${mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}>
+            <div className={`overflow-hidden border-t border-black/5 bg-white/97 backdrop-blur-md transition-all duration-300 dark:bg-[#0f0f0f]/97 lg:hidden ${mobileOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"}`}>
                 <Container>
                     <nav className="py-4">
                         <ul className="flex flex-col gap-1">
                             {navLinks.map((link) => {
+                                const isServicesLink = link.href === "#services";
                                 const isRoute = !!routeLinks[link.href];
                                 const linkClass = "block rounded-lg px-3 py-2.5 text-sm font-medium text-endrika-muted transition-colors hover:bg-endrika-red/5 hover:text-endrika-red dark:text-white/70";
+
+                                if (isServicesLink) {
+                                    return (
+                                        <li key={link.href}>
+                                            {/* Lien vers /services */}
+                                            <Link
+                                                to="/services"
+                                                onClick={() => setMobileOpen(false)}
+                                                className={linkClass}
+                                            >
+                                                {t(link.label)}
+                                            </Link>
+                                            {/* Sous-items services */}
+                                            <ul className="ml-3 mt-1 flex flex-col gap-0.5 border-l border-black/[0.06] pl-3 dark:border-white/10">
+                                                {services.map((service) => (
+                                                    <li key={service.slug}>
+                                                        <Link
+                                                            to={`/services/${service.slug}`}
+                                                            onClick={() => setMobileOpen(false)}
+                                                            className="flex items-center gap-2 rounded-lg px-2 py-2 text-[0.8rem] text-endrika-muted/65 transition-colors hover:text-endrika-red dark:text-white/40"
+                                                        >
+                                                            <i
+                                                                className={`ti ${service.icon}`}
+                                                                style={{ fontSize: 13 }}
+                                                                aria-hidden="true"
+                                                            />
+                                                            {t(service.title)}
+                                                        </Link>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </li>
+                                    );
+                                }
+
                                 return (
                                     <li key={link.href}>
                                         {isRoute ? (
@@ -206,6 +330,7 @@ export function Header({ dark, onToggleDark }: HeaderProps) {
                                 );
                             })}
                         </ul>
+
                         <div className="mt-4 flex items-center gap-3 border-t border-black/5 pt-4 dark:border-white/10">
                             <button
                                 onClick={toggleLang}
